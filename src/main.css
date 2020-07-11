@@ -1,0 +1,75 @@
+body, html
+{
+	margin: 0;
+	padding: 0;
+	cursor: auto;
+}
+.btn{
+	width: 3rem;
+	height: 3rem;
+	border: 1px solid black;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.btn:hover, .btn.active{
+	cursor: pointer;
+	background: #222;
+	color: #fff;
+}
+
+.btn:hover{
+	border: 1px solid red;
+}
+
+.menu{
+	display: flex;
+	width: 90%;
+	height: 10%;
+	list-style-type: none;
+}
+
+.menu > li {
+	margin: 10px;
+}
+
+#main {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+#render { 
+	border: 1px solid black; 
+	cursor: crosshair;
+}
+
+.menu_active {
+	background: #222;
+	color: #fff;
+}
+
+#side_tools { 
+	position: absolute;
+	top: 5%;
+	left: 100%;
+	transform: translateX(-105%);
+	width: auto;
+	height: auto;
+}
+
+#uploadimage
+{
+	display:none;
+	clip: rect(0, 0, 0, 0);
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	white-space: nowrap;
+}

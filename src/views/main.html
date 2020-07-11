@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Fuckin cracking editor</title>
+	<link rel="stylesheet" href="../main.css" media="all">
+  </head>
+  <body id = "main">
+	  <ul id="side_tools" class="menu"> 
+		  <li id="stroke" class="btn">stroke</li>
+		  <li id="eraser" class="btn">eraser</li>
+		  <input class="btn" type="color" id="picker" style="align-self:center;" value="#000000">
+	  </ul>
+
+	  <ul id="tools" class="menu">
+		  <li class="active btn">brush</li>
+		  <li class="btn">rect</li>
+		  <li class="btn">ellipse</li>
+		  <li class="btn">line</li>
+	  </ul>
+
+	  <canvas id="render"></canvas>
+
+	  <ul id="files" class="menu"> 
+		  <input type='file' name='img' size='65' id='uploadimage' style="display:none"/> 
+		  <li id="loadimage" class="btn">open image</li> 
+		  <li id="saveimage"class="btn">save image</li>
+	  </ul>
+
+  </body>
+  <script src="../app/main.js"></script>
+</body>
+</html>

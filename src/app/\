@@ -1,0 +1,116 @@
+const win = nw.Window.get();
+let eraser = false;
+let isDrawing = false;
+let x = 0, y = 0; 
+let rx = 0, ry = 0;
+let onCanvas = false;
+let state = 0;
+const canvas = document.getElementById('render'); 
+const brush = document.querySelector("#brush");
+const rect = document.querySelector("#rect");
+let ctx;
+
+window.addEventListener("mousemove", e => {
+	rect.style.top = brush.style.top = e.pageY + "px";
+	rect.style.top = brush.style.left = e.pageX + "px";
+});
+
+
+canvas.addEventListener("mouseleave", e => {
+	isDrawing = false;
+});
+
+function draw() {
+	function drawLine(context, x1, y1, x2, y2) {
+		context.lineCap = "round";
+		context.beginPath();
+		context.strokeStyle = 'black';
+		context.moveTo(x1, y1);
+		context.lineTo(x2, y2);
+		context.stroke();
+		context.closePath();
+		}
+
+	function drawRect(context, x1, y1, x2, y2){
+		contex.fillRect(x1, y1, x2, y2);
+	}
+
+	canvas.setAttribute("width", ""+(win.width * 0.9));
+	canvas.setAttribute("height", ""+(win.height * 0.9));
+
+	if (canvas.getContext) { 
+		ctx = canvas.getContext('2d'); 
+		canvas.addEventListener("mousedown", e => {
+			if(e.button == 0){
+				x = e.offsetX;
+				y = e.offsetY;
+			}
+			if(state == 1)
+			{
+				rx = e.offsetX;
+				ry = e.offsetY;
+			}
+			isDrawing = true;
+		});
+	
+		canvas.addEventListener("mousemove", e => {
+			if (isDrawing === true) {
+				if(state == 0){
+					drawLine(ctx, x, y, e.offsetX, e.offsetY);
+				}
+				x = e.offsetX;
+				y = e.offsetY;
+			}
+		});
+
+		canvas.addEventListener("mouseup", e => {
+			if (isDrawing === true) {
+				if(state == 0){
+					drawLine(ctx, x, y, e.offsetX, e.offsetY);
+				}
+				else if( state == 1) {
+					ctx.fillRect(rx, ry, e.offsetX, e.offsetY);
+				}
+				x = 0;
+				y = 0;
+				isDrawing = false;
+			}
+		});
+
+		window.addEventListener("keydown", e => {
+			if(e.key == "D")
+			{
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+			}
+			if(e.key == "e" )
+			{
+				if (eraser == true){
+					ctx.globalCompositeOperation = "destination-out";
+					eraser = false;
+				} else if (eraser == false){
+					ctx.globalCompositeOperation = "source-over";
+					eraser = true;
+				}
+			}
+			if(e.key == "a"){
+				ctx.lineWidth+=1;
+				brush.style.width =
+				brush.style.height = ctx.lineWidth + "px";
+			}
+			if(e.key == "d"){
+				if(ctx.lineWidth > 0){
+					ctx.lineWidth-=1;
+					brush.style.width =
+					brush.style.height = ctx.lineWidth + "px";
+				}
+			}
+			if(e.key == "r"){
+				state = 1;
+			}
+			if(e.key == "b"){
+				state = 0;
+			}
+			
+		});
+	} 
+}
