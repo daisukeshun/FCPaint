@@ -17,7 +17,8 @@
 	  "max_width": 2500,
 	  "max_height": 1600,
 	  "position": "center",
-	  "toolbar": true
+	  "toolbar": true,
+	  "resizable": true
   },
 
   "developer":

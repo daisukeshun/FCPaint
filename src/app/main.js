@@ -9,32 +9,32 @@ const win = nw.Window.get();
 const canvas = getElement('#render'); 
 const ctx = canvas.getContext("2d");
 const menu = getElements("#tools > li");
-const file_menu = getElements("#files > li");
-const color_picker = getElement("#picker");
+const fileMenu = getElements("#files > li");
+const colorPicker = getElement("#picker");
 const imageLoader = getElement("#uploadimage");
 const imageSaver = getElement("#saveimage");
 const imageLoaderBtn = getElement("#loadimage");
 const strokeBtn = getElement("#stroke");
+const eraserBtn = getElement("#eraser");
 
-getElement("#eraser").
-	addEventListener("click", 
+eraserBtn.addEventListener("click", 
 		function(){
 			eraser.toggle();
 			this.classList.toggle("active");
 			ctx.globalCompositeOperation = eraser.state;
 });
 
-getElement("#stroke").addEventListener("click", () => {
+strokeBtn.addEventListener("click", () => {
 	mouse.strokeToggle();
 	strokeBtn.classList.toggle("active");
 });
 
-getElement("#loadimage").addEventListener("click", e => 
+imageLoaderBtn.addEventListener("click", e => 
 	{
 		imageLoader.click();
 	});
 
-getElement("#saveimage").addEventListener("click", e =>
+imageSaver.addEventListener("click", e =>
 	{
 		const a = document.createElement("a");
 
@@ -45,9 +45,9 @@ getElement("#saveimage").addEventListener("click", e =>
 		document.body.removeChild(a);
 	});
 
-getElement("#uploadimage").addEventListener("change", e => {
+imageLoader.addEventListener("change", e => {
 	img = new Image(),
-	f = getElement("#uploadimage").files[0],
+	f = imageLoader.files[0],
 	url = window.URL || window.webkitURL,
 	src = url.createObjectURL(f);
 
@@ -76,9 +76,9 @@ getElement("#uploadimage").addEventListener("change", e => {
 	}
 });
 
-getElement("#picker").addEventListener("change", e => {
-	ctx.fillStyle = color_picker.value;
-	ctx.strokeStyle = color_picker.value;
+colorPicker.addEventListener("change", e => {
+	ctx.fillStyle = colorPicker.value;
+	ctx.strokeStyle = colorPicker.value;
 });
 
 let mouse = {
@@ -191,11 +191,20 @@ menu.forEach((item, i, arr) => {
 	});
 });
 
-getElement("canvas").setAttribute("width", ""+(win.width * 0.7));
-getElement("canvas").setAttribute("height", ""+(win.height * 0.8));
+window.addEventListener("resize", () => {
+	canvas.setAttribute("width", ""+(win.width * 0.7));
+	canvas.setAttribute("height", ""+(win.height * 0.8));
+});
+
+window.onload = function()
+{
+	canvas.setAttribute("width", ""+(win.width * 0.7));
+	canvas.setAttribute("height", ""+(win.height * 0.8));
+}
 
 
-getElement("canvas").addEventListener("wheel", e => {
+
+canvas.addEventListener("wheel", e => {
 	if (e.deltaY > 0) {
 		ctx.lineWidth-=1;
 	} else if (e.deltaY < 0) { 
@@ -258,13 +267,13 @@ window.addEventListener("keydown", e => {
 			menu.addActive(mouse.state);
 			break;
 		case "E":
-			getElement("#eraser").click();
+			eraserBtn.click();
 			break;
 		case "D":
 			ctx.clearRect(0, 0, canvas.width, canvas.height);
 			break;
 		case "s":
-			getElement("#stroke").click();
+			strokeBtn.click();
 			break;
 		case "S":
 			imageSaver.click();

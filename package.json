@@ -1,19 +1,25 @@
 {
   "name": "fcp",
   "version": "1.0.0",
-  "description": "",
+  "description": "Simple graphics editor",
   "main": "main.js",
   "scripts": {
     "run": "nw src/",
-    "prod": "nwbuild --platforms win32, win64, osx64, linux32, linux64 --buildDir dist/ src/"
+    "prod": "nwbuild --platforms win32 --buildDir dist/ src/"
   },
   "keywords": [],
-  "author": "",
+  "author": "daisukeshun",
   "license": "ISC",
   "devDependencies": {
-    "nw": "^0.46.4",
-    "nw-builder": "^3.5.7",
-    "nwjs-builder-phoenix": "^1.15.0"
+    "nw": "^0.46.4-sdk"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daisukeshun/FCPaint.git"
+  },
+  "bugs": {
+    "url": "https://github.com/daisukeshun/FCPaint/issues"
+  },
+  "homepage": "https://github.com/daisukeshun/FCPaint#readme"
 }

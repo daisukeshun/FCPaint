@@ -6,17 +6,18 @@
 	<link rel="stylesheet" href="../main.css" media="all">
   </head>
   <body id = "main">
-	  <ul id="side_tools" class="menu"> 
-		  <li id="stroke" class="btn">stroke</li>
-		  <li id="eraser" class="btn">eraser</li>
-		  <input class="btn" type="color" id="picker" style="align-self:center;" value="#000000">
-	  </ul>
-
 	  <ul id="tools" class="menu">
 		  <li class="active btn">brush</li>
 		  <li class="btn">rect</li>
 		  <li class="btn">ellipse</li>
 		  <li class="btn">line</li>
+
+		<ul id="side_tools" class="menu"> 
+		  <li id="stroke" class="btn">stroke</li>
+		  <li id="eraser" class="btn">eraser</li>
+		  <input class="btn" type="color" id="picker" style="align-self:center;" value="#000000">
+		</ul>
+
 	  </ul>
 
 	  <canvas id="render"></canvas>
