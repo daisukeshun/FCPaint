@@ -40,12 +40,9 @@ strokeBtn.addEventListener("click", () => {
 	strokeBtn.classList.toggle("active");
 });
 
-imageLoaderBtn.addEventListener("click", e => 
-	{
-		imageLoader.click();
-	});
+imageLoaderBtn.addEventListener("click", () => { imageLoader.click(); });
 
-imageSaver.addEventListener("click", e =>
+imageSaver.addEventListener("click", () =>
 	{
 		const a = document.createElement("a");
 
@@ -56,7 +53,7 @@ imageSaver.addEventListener("click", e =>
 		document.body.removeChild(a);
 	});
 
-imageLoader.addEventListener("change", e => {
+imageLoader.addEventListener("change", () => {
 	img = new Image(),
 	f = imageLoader.files[0],
 	url = window.URL || window.webkitURL,
@@ -257,12 +254,8 @@ window.addEventListener("keydown", e => {
 		case "E":
 			eraserBtn.click();
 			break;
-		case "D":
-			ctx.fillStyle = "#ffffff";
-			ctx.strokeStyle ="#ffffff";
+		case "f":
 			ctx.fillRect(0, 0, canvas.width, canvas.height);
-			ctx.fillStyle = colorPicker.value;
-			ctx.strokeStyle = colorPicker.value;
 			break;
 		case "s":
 			strokeBtn.click();
