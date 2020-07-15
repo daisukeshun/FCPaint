@@ -7,15 +7,15 @@
   </head>
   <body id = "main">
 	  <ul id="tools" class="menu">
+		  <li id="pickerBtn"></li>
 		  <li class="active btn">brush</li>
 		  <li class="btn">rect</li>
 		  <li class="btn">ellipse</li>
 		  <li class="btn">line</li>
 
-		<ul id="side_tools" class="menu"> 
+		<ul id="sideTools" class="menu"> 
 		  <li id="stroke" class="btn">stroke</li>
 		  <li id="eraser" class="btn">eraser</li>
-		  <input class="btn" type="color" id="picker" style="align-self:center;" value="#000000">
 		</ul>
 
 	  </ul>
@@ -23,11 +23,12 @@
 	  <canvas id="render"></canvas>
 
 	  <ul id="files" class="menu"> 
-		  <input type='file' name='img' size='65' id='uploadimage' style="display:none"/> 
-		  <li id="loadimage" class="btn">open image</li> 
-		  <li id="saveimage"class="btn">save image</li>
+		  <li id="loadImage" class="btn">open</li> 
+		  <li id="saveImage"class="btn">save</li>
 	  </ul>
 
+	<input type="color" id="picker" value="#000000">
+	<input type='file' id='uploadImage'/> 
   </body>
   <script src="../app/main.js"></script>
 </body>

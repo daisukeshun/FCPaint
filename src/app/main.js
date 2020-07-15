@@ -8,20 +8,31 @@ function getElements(selector){
 const win = nw.Window.get();
 const canvas = getElement('#render'); 
 const ctx = canvas.getContext("2d");
-const menu = getElements("#tools > li");
-const fileMenu = getElements("#files > li");
+
+const menu = getElements("#tools > .btn");
+const fileMenu = getElements("#files > .btn");
+
 const colorPicker = getElement("#picker");
-const imageLoader = getElement("#uploadimage");
-const imageSaver = getElement("#saveimage");
-const imageLoaderBtn = getElement("#loadimage");
+const imageLoader = getElement("#uploadImage");
+const imageSaver = getElement("#saveImage");
+
+
+const colorPickerBtn = getElement("#pickerBtn");
+const imageLoaderBtn = getElement("#loadImage");
 const strokeBtn = getElement("#stroke");
 const eraserBtn = getElement("#eraser");
 
+
+colorPickerBtn.addEventListener("click", () =>{
+	colorPicker.click();
+});
+
+
 eraserBtn.addEventListener("click", 
-		function(){
-			eraser.toggle();
-			this.classList.toggle("active");
-			ctx.globalCompositeOperation = eraser.state;
+	function(){
+		this.classList.toggle("active");
+		mouse.eraserToggle();
+		ctx.globalCompositeOperation == "source-over" ? ctx.globalCompositeOperation = "destination-out" : ctx.globalCompositeOperation = "source-over";
 });
 
 strokeBtn.addEventListener("click", () => {
@@ -76,9 +87,10 @@ imageLoader.addEventListener("change", e => {
 	}
 });
 
-colorPicker.addEventListener("change", e => {
-	ctx.fillStyle = colorPicker.value;
-	ctx.strokeStyle = colorPicker.value;
+colorPicker.addEventListener("change", function(){
+	colorPickerBtn.style.background = this.value;
+	ctx.fillStyle = this.value;
+	ctx.strokeStyle = this.value;
 });
 
 let mouse = {
@@ -87,16 +99,10 @@ let mouse = {
 	drawing: false,
 	state: 0,
 	stroke: false,
-	drawToggle: function() {
-		if (this.drawing) 
-			 { this.drawing = false; } 
-		else { this.drawing = true; }
-	},
-	strokeToggle: function() {
-		if (this.stroke) 
-			 { this.stroke = false; } 
-		else { this.stroke = true; }
-	},
+	eraser: false,
+	drawToggle: function() { this.drawing ? this.drawing = false : this.drawing = true; },
+	strokeToggle: function() { this.stroke ? this.stroke = false : this.stroke = true; },
+	eraserToggle: function() { this.eraser ? this.eraser = false : this.eraser = true; },
 	draw: function(context, e)
 	{
 		if(this.drawing){
@@ -106,14 +112,10 @@ let mouse = {
 					drawLine(context, 
 							this.x, this.y, 
 							e.offsetX, e.offsetY);
-					this.x = e.offsetX;
-					this.y = e.offsetY;
 					break;
 				case 1:
 					this.stroke ?  context.strokeRect(this.x, this.y, e.offsetX - this.x, e.offsetY - this.y) : 
 						context.fillRect(this.x, this.y, e.offsetX - this.x, e.offsetY - this.y);
-					this.x = e.offsetX;
-					this.y = e.offsetY;
 					break;
 				case 2:
 					//Save
@@ -130,34 +132,16 @@ let mouse = {
 					//Restore and draw
 					ctx.restore();
 					this.stroke ? context.stroke() : context.fill();
-					this.x = e.offsetX;
-					this.y = e.offsetY;
 					break;
 				case 3:
 					drawLine(context, this.x, this.y, e.offsetX, e.offsetY);
-					this.x = e.offsetX;
-					this.y = e.offsetY;
 					break;
 			}
+			this.x = e.offsetX;
+			this.y = e.offsetY;
 		}
 	}
 }
-
-let eraser = {
-	value: false,
-	state:  "source-over",
-	toggle: function() {
-		if (this.value) { 
-			this.value = false;
-			this.state = "source-over";
-		} 
-		else { 
-			this.value = true; 
-			this.state = "destination-out";
-		}
-	}
-}
-
 
 function Menu_t(menu, active, activeClass)
 {
@@ -187,19 +171,23 @@ Menu_t(menu, 0, "active");
 menu.forEach((item, i, arr) => {
 	item.addEventListener("mousedown", e => {
 		mouse.state = i;
-		mouse.updateCursor();
 	});
 });
 
 window.addEventListener("resize", () => {
-	canvas.setAttribute("width", ""+(win.width * 0.7));
-	canvas.setAttribute("height", ""+(win.height * 0.8));
+	canvas.setAttribute("width", ""+(win.width * 0.8));
+	canvas.setAttribute("height", ""+(win.height));
+	ctx.fillStyle = "#ffffff";
+	ctx.strokeStyle ="#ffffff";
+	ctx.fillRect(0, 0, canvas.width, canvas.height);
+	ctx.fillStyle = colorPicker.value;
+	ctx.strokeStyle = colorPicker.value;
 });
 
 window.onload = function()
 {
-	canvas.setAttribute("width", ""+(win.width * 0.7));
-	canvas.setAttribute("height", ""+(win.height * 0.8));
+	canvas.setAttribute("width", ""+(win.width * 0.8));
+	canvas.setAttribute("height", ""+(win.height));
 }
 
 
@@ -270,7 +258,11 @@ window.addEventListener("keydown", e => {
 			eraserBtn.click();
 			break;
 		case "D":
-			ctx.clearRect(0, 0, canvas.width, canvas.height);
+			ctx.fillStyle = "#ffffff";
+			ctx.strokeStyle ="#ffffff";
+			ctx.fillRect(0, 0, canvas.width, canvas.height);
+			ctx.fillStyle = colorPicker.value;
+			ctx.strokeStyle = colorPicker.value;
 			break;
 		case "s":
 			strokeBtn.click();
